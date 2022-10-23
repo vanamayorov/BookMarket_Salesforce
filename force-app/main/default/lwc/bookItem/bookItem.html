@@ -1,0 +1,57 @@
+<template>
+  <lightning-card icon-name="standard:related_list" title={book.Book_Title__c}>
+    <div class="slds-card__body slds-card__body_inner">
+      <div>Author: {book.Author__r.Name}</div>
+      <div>
+        Price:
+        <lightning-formatted-number
+          value={book.Price__c}
+          format-style="currency"
+        >
+        </lightning-formatted-number>
+      </div>
+      <div class="slds-line-clamp">
+        Description:
+        <template if:true={book.Description__c}>
+          {book.Description__c}
+        </template>
+        <template if:false={book.Description__c}> No description...</template>
+      </div>
+      <div>Bookstore: {book.Bookstore__r.Name}</div>
+      <div>Available in stock: {book.Quantity__c}</div>
+      <div>
+        <lightning-input
+          class="custom-input"
+          type="checkbox"
+          label="Available In Stock"
+          checked={book.Available_In_Stock__c}
+          disabled
+        >
+        </lightning-input>
+      </div>
+    </div>
+    <div class="card-footer" slot="footer">
+      <template if:false={book.Available_In_Stock__c}> Sold </template>
+      <template if:true={book.Available_In_Stock__c}>
+        <lightning-input
+          type="number"
+          label="Quantity"
+          value={quantityToBuy}
+          onchange={handleQuantityChange}
+          step="1"
+          min="1"
+        >
+        </lightning-input>
+        <lightning-button
+          variant="success"
+          label="Buy"
+          title="Successful action"
+          onclick={buyBook}
+          class="slds-m-left_x-small"
+          disabled={invalidInput}
+        >
+        </lightning-button>
+      </template>
+    </div>
+  </lightning-card>
+</template>

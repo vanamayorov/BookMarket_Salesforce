@@ -1,0 +1,19 @@
+.slds-card__body div {
+  font-size: 1rem;
+}
+
+.card-footer {
+  display: flex;
+  align-items: flex-end;
+}
+
+.custom-input .slds-checkbox__label .slds-form-element__label {
+  font-size: 1rem;
+  color: #181818;
+}
+
+.slds-card__body .custom-input .slds-checkbox__label {
+  display: inline-flex;
+  align-items: center;
+  flex-direction: row-reverse;
+}

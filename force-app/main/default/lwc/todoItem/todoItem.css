@@ -1,0 +1,16 @@
+.container {
+  border: 1px solid lightgray;
+  padding: 0.5rem;
+  margin-top: 8px;
+  margin-right: auto;
+  margin-left: auto;
+  width: auto;
+}
+
+.completed {
+  background-color: lightgreen;
+}
+
+.upcoming {
+  background-color: orange;
+}
