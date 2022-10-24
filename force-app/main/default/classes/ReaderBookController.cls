@@ -8,7 +8,7 @@ public with sharing class ReaderBookController {
         WHERE Reader__c IN (SELECT Id FROM Reader__c WHERE User__c = :userId)
       ];
     } catch (Exception e) {
-      throw new AuraHandledException(e.getMessage());
+      throw new CustomException(e.getMessage());
     }
   }
 }

@@ -16,7 +16,7 @@ public with sharing class InvoiceController {
       insert invoice;
       return invoice;
     } catch (Exception e) {
-      throw new AuraHandledException(e.getMessage());
+      throw new CustomException(e.getMessage());
     }
   }
 }
