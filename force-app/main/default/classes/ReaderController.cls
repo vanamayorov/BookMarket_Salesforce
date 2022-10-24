@@ -26,7 +26,7 @@ public with sharing class ReaderController {
       }
       return readerInDb[0];
     } catch (Exception e) {
-      throw new AuraHandledException(e.getMessage());
+      throw new CustomException(e.getMessage());
     }
   }
 
@@ -45,9 +45,9 @@ public with sharing class ReaderController {
       ];
 
       if (readerBookList.isEmpty()) {
-        readerList.Reader__c=readerId;
-        readerList.Book__c=bookId;
-        readerList.Number_Of_Books__c=bookQty;
+        readerList.Reader__c = readerId;
+        readerList.Book__c = bookId;
+        readerList.Number_Of_Books__c = bookQty;
         insert readerList;
       } else {
         readerList = readerBookList[0];
@@ -57,7 +57,7 @@ public with sharing class ReaderController {
 
       return readerList;
     } catch (Exception e) {
-      throw new AuraHandledException(e.getMessage());
+      throw new CustomException(e.getMessage());
     }
   }
 }

@@ -1,13 +1,18 @@
 <template>
   <h2 class="slds-text-title title">Books List</h2>
-  <template if:false={books.length}> No books available :( </template>
-  <template if:true={books}>
-    <template for:each={books} for:item="book">
-      <c-book-item
-        book={book}
-        onbuybook={triggerBooksResult}
-        key={book.Id}
-      ></c-book-item>
+  <template if:true={isLoading}>
+    <c-load-spinner></c-load-spinner>
+  </template>
+  <template if:false={isLoading}>
+    <template if:false={books.length}> No books available :( </template>
+    <template if:true={books}>
+      <template for:each={books} for:item="book">
+        <c-book-item
+          book={book}
+          onbuybook={triggerBooksResult}
+          key={book.Id}
+        ></c-book-item>
+      </template>
     </template>
   </template>
 </template>

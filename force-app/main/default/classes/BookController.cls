@@ -16,7 +16,7 @@ public with sharing class BookController {
         WHERE Bookstore__r.City__c = :cityId
       ];
     } catch (Exception e) {
-      throw new AuraHandledException(e.getMessage());
+      throw new CustomException(e.getMessage());
     }
   }
 
@@ -32,17 +32,17 @@ public with sharing class BookController {
       Double price = (Double) payloadMap.get('price');
       String bookstoreId = (String) payloadMap.get('bookstoreId');
 
+      BookController.updateBookQty(bookId, bookQty);
       Reader__c reader = ReaderController.createReader(userId);
       InvoiceController.makeInvoice(reader.Id, bookId, bookQty, price);
-      BookController.updateBookQty(bookId, bookQty);
-      BookstoreController.updateBookstoreNumOfSoldBooks(bookstoreId, bookQty);
       ReaderController.createReaderList(reader.Id, bookId, bookQty);
+      BookstoreController.updateBookstoreNumOfSoldBooks(bookstoreId, bookQty);
     } catch (Exception e) {
-      throw new AuraHandledException(e.getMessage());
+      throw new CustomException(e.getMessage());
     }
   }
 
-  private static Book__c updateBookQty(String bookId, Integer bookQty) {
+  public static Book__c updateBookQty(String bookId, Integer bookQty) {
     try {
       Book__c book = [
         SELECT Id, Quantity__c
@@ -51,14 +51,16 @@ public with sharing class BookController {
       ][0];
 
       if (book.Quantity__c - bookQty < 0) {
-        throw new AuraHandledException('Exceeding num of books, buy less');
+        throw new CustomException(
+          'Exceeding number of books. You cant buy more than available in stock.'
+        );
       }
 
       book.Quantity__c -= bookQty;
       update book;
       return book;
     } catch (Exception e) {
-      throw new AuraHandledException(e.getMessage());
+      throw new CustomException(e.getMessage());
     }
   }
 }

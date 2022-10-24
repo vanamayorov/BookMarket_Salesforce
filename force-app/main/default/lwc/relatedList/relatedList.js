@@ -12,6 +12,7 @@ const columns = [
 export default class RelatedList extends LightningElement {
   data = [];
   columns = columns;
+  isLoading = true;
 
   connectedCallback() {
     this.fetchRelatedList();
@@ -34,6 +35,9 @@ export default class RelatedList extends LightningElement {
             variant: "error"
           })
         );
+      })
+      .finally(() => {
+        this.isLoading = false;
       });
   }
 }

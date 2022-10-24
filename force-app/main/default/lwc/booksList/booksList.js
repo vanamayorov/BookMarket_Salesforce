@@ -7,11 +7,13 @@ export default class BooksList extends LightningElement {
   @api cityId;
   books = [];
   booksResults;
+  isLoading = false;
 
   @wire(getBooksByCity, { cityId: "$cityId" })
   wiredBooks(value) {
     this.booksResults = value;
     const { error, data } = value;
+    this.isLoading = true;
 
     if (error) {
       this.books = [];
@@ -23,10 +25,12 @@ export default class BooksList extends LightningElement {
           variant: "error"
         })
       );
+      this.isLoading = false;
     }
 
     if (data) {
       this.books = data;
+      this.isLoading = false;
     }
   }
 

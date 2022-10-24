@@ -35,7 +35,7 @@ export default class BookItem extends LightningElement {
           this.dispatchEvent(new CustomEvent("buybook"));
         })
         .catch((err) => {
-          throw new Error(err.body.message);
+          this._showToaster("Error!", err.body.message, "error");
         });
     } catch (err) {
       this._showToaster("Error!", err.message, "error");

@@ -1,11 +1,19 @@
 <template>
   <lightning-layout class="slds-card">
-    <lightning-datatable
-      key-field="id"
-      data={data}
-      columns={columns}
-      hide-checkbox-column
-    >
-    </lightning-datatable>
+    <template if:true={isLoading}>
+      <lightning-card class="spinner-wrapper">
+        <c-load-spinner></c-load-spinner>
+      </lightning-card>
+    </template>
+
+    <template if:false={isLoading}>
+      <lightning-datatable
+        key-field="id"
+        data={data}
+        columns={columns}
+        hide-checkbox-column
+      >
+      </lightning-datatable>
+    </template>
   </lightning-layout>
 </template>

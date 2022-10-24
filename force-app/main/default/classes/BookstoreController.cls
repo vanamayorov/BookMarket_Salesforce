@@ -16,7 +16,7 @@ public with sharing class BookstoreController {
         bookstore.Num_Sold_Books__c += bookQty;
         update bookstore;
       }
-      
+
       return bookstore;
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
