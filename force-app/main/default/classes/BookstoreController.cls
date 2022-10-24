@@ -1,9 +1,10 @@
 public with sharing class BookstoreController {
-  public static void updateBookstoreNumOfSoldBooks(
+  public static Bookstore__c updateBookstoreNumOfSoldBooks(
     String bookstoreId,
     Integer bookQty
   ) {
     try {
+      Bookstore__c bookstore = new Bookstore__c();
       List<Bookstore__c> bookstoreList = [
         SELECT Id, Num_Sold_Books__c
         FROM Bookstore__c
@@ -11,10 +12,12 @@ public with sharing class BookstoreController {
       ];
 
       if (!bookstoreList.isEmpty()) {
-        Bookstore__c bookstore = bookstoreList[0];
+        bookstore = bookstoreList[0];
         bookstore.Num_Sold_Books__c += bookQty;
         update bookstore;
       }
+      
+      return bookstore;
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
     }

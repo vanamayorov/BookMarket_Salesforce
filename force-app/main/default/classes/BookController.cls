@@ -13,7 +13,7 @@ public with sharing class BookController {
           Bookstore__r.Name,
           Available_In_Stock__c
         FROM Book__c
-        WHERE Bookstore__r.City__r.Id = :cityId
+        WHERE Bookstore__r.City__c = :cityId
       ];
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
@@ -32,17 +32,17 @@ public with sharing class BookController {
       Double price = (Double) payloadMap.get('price');
       String bookstoreId = (String) payloadMap.get('bookstoreId');
 
-      ID readerId = ReaderController.createReader(userId);
-      InvoiceController.makeInvoice(readerId, bookId, bookQty, price);
+      Reader__c reader = ReaderController.createReader(userId);
+      InvoiceController.makeInvoice(reader.Id, bookId, bookQty, price);
       BookController.updateBookQty(bookId, bookQty);
       BookstoreController.updateBookstoreNumOfSoldBooks(bookstoreId, bookQty);
-      ReaderController.createReaderList(readerId, bookId, bookQty);
+      ReaderController.createReaderList(reader.Id, bookId, bookQty);
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
     }
   }
 
-  private static void updateBookQty(String bookId, Integer bookQty) {
+  private static Book__c updateBookQty(String bookId, Integer bookQty) {
     try {
       Book__c book = [
         SELECT Id, Quantity__c
@@ -56,6 +56,7 @@ public with sharing class BookController {
 
       book.Quantity__c -= bookQty;
       update book;
+      return book;
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
     }

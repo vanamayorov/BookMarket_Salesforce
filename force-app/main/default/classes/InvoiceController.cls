@@ -1,5 +1,5 @@
 public with sharing class InvoiceController {
-  public static void makeInvoice(
+  public static Invoice__c makeInvoice(
     String readerId,
     String bookId,
     Integer bookQty,
@@ -14,6 +14,7 @@ public with sharing class InvoiceController {
       );
 
       insert invoice;
+      return invoice;
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
     }
