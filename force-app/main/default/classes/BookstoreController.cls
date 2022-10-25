@@ -19,7 +19,7 @@ public with sharing class BookstoreController {
 
       return bookstore;
     } catch (Exception e) {
-      throw new AuraHandledException(e.getMessage());
+      throw new CustomException(e.getMessage());
     }
   }
 }

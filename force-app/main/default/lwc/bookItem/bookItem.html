@@ -34,12 +34,15 @@
       <template if:false={book.Available_In_Stock__c}> Sold </template>
       <template if:true={book.Available_In_Stock__c}>
         <lightning-input
+          class="quantity-input"
           type="number"
           label="Quantity"
           value={quantityToBuy}
           onchange={handleQuantityChange}
           step="1"
           min="1"
+          max={book.Quantity__c}
+          required
         >
         </lightning-input>
         <lightning-button

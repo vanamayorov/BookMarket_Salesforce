@@ -2,11 +2,10 @@ import { LightningElement, api } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import buyBook from "@salesforce/apex/BookController.buyBook";
 import Id from "@salesforce/user/Id";
-
+// reportValidity, checkValidity
 export default class BookItem extends LightningElement {
   @api book;
   quantityToBuy = 1;
-  invalidInput = false;
   userId = Id;
 
   buyBook() {
@@ -44,14 +43,15 @@ export default class BookItem extends LightningElement {
 
   handleQuantityChange(event) {
     const quantity = +event.detail.value;
-
-    if (!quantity) {
-      this.invalidInput = true;
-      return;
-    }
-
     this.quantityToBuy = quantity;
-    this.invalidInput = false;
+  }
+
+  get invalidInput() {
+    const validity = this.template
+      .querySelector(".quantity-input")
+      ?.checkValidity();
+    if (validity === undefined) return false;
+    return !validity;
   }
 
   _showToaster(title, message, variant) {
