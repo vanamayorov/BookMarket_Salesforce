@@ -36,7 +36,8 @@ export default class BookItem extends LightningElement {
         })
         .catch((err) => {
           this._showToaster("Error!", err.body.message, "error");
-        });
+        })
+        .finally();
     } catch (err) {
       this._showToaster("Error!", err.message, "error");
     }
