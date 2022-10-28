@@ -2,7 +2,7 @@ public with sharing class BookController {
   @AuraEnabled(cacheable=true)
   public static List<Book__c> getBooksByCity(String cityId) {
     try {
-      return [
+      List<Book__c> booksList = [
         SELECT
           Id,
           Book_Title__c,
@@ -15,6 +15,12 @@ public with sharing class BookController {
         FROM Book__c
         WHERE Bookstore__r.City__c = :cityId
       ];
+
+      if (booksList.isEmpty()) {
+        throw new CustomException('No books found.');
+      }
+
+      return booksList;
     } catch (Exception e) {
       throw new CustomException(e.getMessage());
     }
@@ -34,7 +40,13 @@ public with sharing class BookController {
 
       BookController.updateBookQty(bookId, bookQty);
       Reader__c reader = ReaderController.createReader(userId);
-      InvoiceController.makeInvoice(reader.Id, bookId, bookQty, price);
+      InvoiceController.makeInvoice(
+        reader.Id,
+        bookId,
+        bookQty,
+        price,
+        bookstoreId
+      );
       ReaderController.createReaderList(reader.Id, bookId, bookQty);
       BookstoreController.updateBookstoreNumOfSoldBooks(bookstoreId, bookQty);
     } catch (Exception e) {

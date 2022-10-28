@@ -3,10 +3,12 @@ public with sharing class InvoiceController {
     String readerId,
     String bookId,
     Integer bookQty,
-    Double price
+    Double price,
+    String bookstoreId
   ) {
     try {
       Invoice__c invoice = new Invoice__c(
+        Bookstore__c = bookstoreId,
         Books_Quantity__c = bookQty,
         Book__c = bookId,
         Reader__c = readerId,
