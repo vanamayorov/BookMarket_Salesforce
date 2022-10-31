@@ -1,4 +1,4 @@
-public with sharing class BookstoreController {
+public without sharing class BookstoreController {
   public static Bookstore__c updateBookstoreNumOfSoldBooks(
     String bookstoreId,
     Integer bookQty

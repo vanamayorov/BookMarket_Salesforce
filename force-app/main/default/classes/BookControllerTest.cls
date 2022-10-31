@@ -15,27 +15,28 @@ private class BookControllerTest {
     );
     insert author;
 
-    Book__c book = new Book__c(
-      Price__c = 35,
-      Book_Title__c = 'Test book',
-      Quantity__c = 35,
-      Author__c = author.Id
-    );
-    insert book;
-
     Bookstore__c bookstore = new Bookstore__c(
       Name = 'Kharkiv bookstore',
       City__c = cities[0].Id
     );
     insert bookstore;
+
+    Book__c book = new Book__c(
+      Price__c = 35,
+      Book_Title__c = 'Test book',
+      Quantity__c = 35,
+      Author__c = author.Id,
+      Bookstore__c = bookstore.Id
+    );
+    insert book;
   }
 
   @isTest
   static void getBooksByCityTestPositive() {
     Test.startTest();
-    City__c city = [SELECT Id, Name FROM City__c WHERE Name = 'Kyiv'];
+    City__c city = [SELECT Id, Name FROM City__c WHERE Name = 'Kyiv'][0];
     List<Book__c> books = BookController.getBooksByCity(city.Id);
-    System.assertEquals(null, books);
+    System.assertNotEquals(null, books);
     System.assert(books.size() > 0);
     Test.stopTest();
   }
@@ -44,7 +45,7 @@ private class BookControllerTest {
   static void getBooksByCityTest_No_Books_Found() {
     try {
       Test.startTest();
-      City__c city = [SELECT Id, Name FROM City__c WHERE Name = 'Kharkiv'];
+      City__c city = [SELECT Id, Name FROM City__c WHERE Name = 'Kharkiv'][0];
       List<Book__c> books = BookController.getBooksByCity(city.Id);
       Test.stopTest();
     } catch (Exception e) {
