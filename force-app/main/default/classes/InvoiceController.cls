@@ -1,4 +1,4 @@
-public with sharing class InvoiceController {
+public without sharing class InvoiceController {
   public static Invoice__c makeInvoice(
     String readerId,
     String bookId,

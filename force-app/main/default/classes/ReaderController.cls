@@ -1,4 +1,4 @@
-public with sharing class ReaderController {
+public without sharing class ReaderController {
   public static Reader__c createReader(String userId) {
     try {
       User user = [
